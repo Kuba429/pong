@@ -34,6 +34,7 @@ HIT_SOUND2 = pygame.mixer.Sound('assets/hit2.wav')
 pygame.display.set_caption('Pong')
 pygame.display.set_icon(ICON)
 
+
 class Player():
 
     def __init__(self, x, y, img_up, img_down):
@@ -56,11 +57,11 @@ class Ball():
         self.img = img
         self.x = WIDTH/2 - (self.img.get_width()/2)
         self.y = HEIGHT/2 - (self.img.get_height()/2)
-        self.x_vel = random.choice([5,-5])
-        self.y_vel = random.randrange(-5,5)
+        self.x_vel = random.choice([5, -5])
+        self.y_vel = random.randrange(-5, 5)
         self.mask = pygame.mask.from_surface(self.img)
 
-    def draw(self, WIN,HEIGHT):
+    def draw(self, WIN, HEIGHT):
         if self.y <= 0 or self.y + self.img.get_height() >= HEIGHT:
             self.y_vel *= -1
         self.x += self.x_vel
@@ -72,13 +73,18 @@ class Ball():
         if self.y_vel == 0:
             self.y_vel = 1
 
+
 sound_count = 0
-player1 = Player(P1_UP.get_width()+30, HEIGHT/2 -P1_UP.get_height(), P1_UP, P1_DOWN)
-player2 = Player(WIDTH - P2_UP.get_width() - 30, HEIGHT /2 - P2_UP.get_height(), P2_UP, P2_DOWN)
+player1 = Player(P1_UP.get_width()+30, HEIGHT/2 -
+                 P1_UP.get_height(), P1_UP, P1_DOWN)
+player2 = Player(WIDTH - P2_UP.get_width() - 30, HEIGHT /
+                 2 - P2_UP.get_height(), P2_UP, P2_DOWN)
+
+
 def main():
     run = True
-    FPS = 60
-    
+    FPS = 80
+
     clock = pygame.time.Clock()
     ball = Ball(BALL)
     player1.vel = 4
@@ -89,17 +95,16 @@ def main():
     score2 = score_font.render(str(player2.score), 1, score_text_color2)
     text_y = HEIGHT/2 - (score1.get_height()/2)
     text_x1 = WIDTH/5 - (score1.get_width()/2)
-    text_x2 =WIDTH - WIDTH/5 - (score1.get_width()/2)
-
+    text_x2 = WIDTH - WIDTH/5 - (score1.get_width()/2)
 
     def redraw_window(WIN):
         WIN.blit(BG, (0, 0))
-        WIN.blit(score1,(text_x1, text_y))
+        WIN.blit(score1, (text_x1, text_y))
         WIN.blit(score2, (text_x2, text_y))
         #pygame.draw.rect(WIN, (0, 0, 0), (0, HEIGHT/2, WIDTH, 1))
         player1.draw(WIN)
         player2.draw(WIN)
-        ball.draw(WIN,HEIGHT)
+        ball.draw(WIN, HEIGHT)
         pygame.display.update()
 
     def collision():
@@ -121,8 +126,6 @@ def main():
                     ball.y += 1
                     sound()
 
-
-
         elif ball.x == player1.x + player1.img_up.get_width():
             if ball.y + ball.img.get_height() >= player1.y and ball.y < player1.y + player1.img_up.get_height():
                 ball.x_vel *= -1
@@ -142,17 +145,15 @@ def main():
                     sound()
         ball.mis_vel()
 
-
     def sound():
         global sound_count
         sound_count += 1
         if sound_count % 2 == 0:
             HIT_SOUND1.play()
-            
+
         else:
             HIT_SOUND2.play()
-            
-        
+
     def point():
         if ball.x <= 0:
             player2.score += 1
